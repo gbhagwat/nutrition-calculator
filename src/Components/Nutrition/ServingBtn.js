@@ -1,37 +1,35 @@
-import { useDispatch } from "react-redux";
+import {store} from "../../App/store";
 import { changePortionSize } from "../../App/PortionSizeSlice";
 
 let showFullFacts = true;
 let showHalfFacts = false;
 
-function showHalfIng(dispatch) {
+function showHalfIng() {
   showHalfFacts = true;
   showFullFacts = false;
-  dispatch(changePortionSize("half"));
+  store.dispatch(changePortionSize("half"));
 }
 
-function showFullIng(dispatch) {
+function showFullIng() {
   showHalfFacts = false;
   showFullFacts = true;
-  dispatch(changePortionSize("full"));
+  store.dispatch(changePortionSize("full"));
 }
 
 export default function ServingBtn() {
-  const dispatch = useDispatch();
-
   return (
     <div>
       <button
         type="button"
         className={`btn btn-primary mr-1  ${showFullFacts ? "active" : ""}`}
-        onClick={showFullIng(dispatch)}
+        onClick={showFullIng()}
       >
         Full-Size
       </button>
       <button
         type="button"
         className={`btn btn-primary mr-1  ${showHalfFacts ? "active" : ""}`}
-        onClick={showHalfIng(dispatch)}
+        onClick={showHalfIng()}
       >
         Half-Size
       </button>

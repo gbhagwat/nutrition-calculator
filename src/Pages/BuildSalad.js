@@ -1,7 +1,8 @@
 import ingredients from "../Data/ingredients.json";
+import {store} from "../App/store";
 import { Ingredients } from "../Components/Nutrition/Ingredients";
 import { Calculator } from "../Components/Nutrition/Calculator";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { resetIngredients } from "../App/SelectedIngredientsSlice";
 
 function compare(a, b) {
@@ -26,17 +27,15 @@ function filterCategory(array, cat) {
 }
 
 function reset(dispatch) {
-  dispatch(resetIngredients());
+  store.dispatch(resetIngredients());
   //   this.$refs.ing.forEach(function (el) {
   //     return (el.isSelected = false);
   //   });
 }
 
 export default function BuildSalad() {
-  const portionSize = useSelector((state) => state.portionSize);
-  const foodType = useSelector((state) => state.foodType);
-
-  const dispatch = useDispatch();
+  const size = useSelector((state) => state.portionSize);
+  const type = useSelector((state) => state.foodType);
 
   return (
     <div>
@@ -44,7 +43,7 @@ export default function BuildSalad() {
         <div className="col-12 col-lg-8">
           <section className="px-3 py-3 mb-5">
             <h4>
-              {portionSize}-Size {foodType} Nutrition Facts
+              {size.portionSize}-Size {type.foodType} Nutrition Facts
             </h4>
 
             <h5>
@@ -226,7 +225,7 @@ export default function BuildSalad() {
             title="Nutrition Facts"
             subTitle="Items Selected"
           ></Calculator>
-          <button onClick={reset(dispatch)} className="btn btn-secondary">
+          <button onClick={reset()} className="btn btn-secondary">
             Reset
           </button>
         </div>

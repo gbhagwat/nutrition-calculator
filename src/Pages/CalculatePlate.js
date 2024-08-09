@@ -1,3 +1,4 @@
+import {store} from "../App/store";
 import { Header } from "../Components/Layout/Header";
 import { Jumbotron } from "../Components/Layout/Jumbotron";
 import { Navigation } from "../Components/Layout/Navigation";
@@ -5,14 +6,13 @@ import { Footer } from "../Components/Layout/Footer";
 import BuildPizza from "../Pages/BuildPizza";
 import BuildSalad from "../Pages/BuildSalad";
 import ServingBtn from "../Components/Nutrition/ServingBtn";
-import { useDispatch } from "react-redux";
 import { changeFoodType } from "../App/FoodTypeSlice";
 import { resetIngredients } from "../App/SelectedIngredientsSlice";
 
+let showPizza = true;
+let showSalad = false;
+
 export function CalculatePlate() {
-  const dispatch = useDispatch();
-  let showPizza = true;
-  let showSalad = false;
 
   return (
     <div>
@@ -28,14 +28,14 @@ export function CalculatePlate() {
           <button
             type="button"
             className={`btn btn-primary mr-1 ${showPizza ? "active" : ""}`}
-            onClick={showPizzaInfo(showPizza, showSalad, dispatch)}
+            onClick={() => showPizzaInfo(showPizza, showSalad)}
           >
             Flatbread
           </button>
           <button
             type="button"
             className={`btn btn-primary mr-5 ${showSalad ? "active" : ""}`}
-            onClick={showSaladInfo(showPizza, showSalad, dispatch)}
+            onClick={() => showSaladInfo(showPizza, showSalad)}
           >
             Salad
           </button>
@@ -51,22 +51,22 @@ export function CalculatePlate() {
   );
 }
 
-function showPizzaInfo(showPizza, showSalad, dispatch) {
+function showPizzaInfo() {
   showPizza = true;
   showSalad = false;
-  dispatch(changeFoodType("Flatbread"));
-  reset(dispatch);
+  store.dispatch(changeFoodType("Flatbread"));
+  reset();
 }
 
-function showSaladInfo(showPizza, showSalad, dispatch) {
+function showSaladInfo() {
   showPizza = false;
   showSalad = true;
-  dispatch(changeFoodType("Salad"));
-  reset(dispatch);
+  store.dispatch(changeFoodType("Salad"));
+  reset();
 }
 
-function reset(dispatch) {
-  dispatch(resetIngredients);
+function reset() {
+  store.dispatch(resetIngredients);
   //   this.$refs.ing.forEach(function (el) {
   //     return (el.isSelected = false);
   //   });

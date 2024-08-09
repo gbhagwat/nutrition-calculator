@@ -1,7 +1,8 @@
 import ingredients from "../Data/ingredients.json";
+import {store} from "../App/store";
 import { Ingredients } from "../Components/Nutrition/Ingredients";
 import { Calculator } from "../Components/Nutrition/Calculator";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, shallowEqual} from "react-redux";
 import { resetIngredients } from "../App/SelectedIngredientsSlice";
 
 function compare(a, b) {
@@ -25,17 +26,20 @@ function filterCategory(array, cat) {
   return output;
 }
 
-function reset(dispatch) {
-  dispatch(resetIngredients());
+function reset() {
+  store.dispatch(resetIngredients);
   //   this.$refs.ing.forEach(function (el) {
   //     return (el.isSelected = false);
   //   });
 }
 
+// function capitalize(string) {
+//   return string.charAt(0).toUpperCase() + string.slice(1);
+// }
+
 export default function BuildPizza() {
-  const dispatch = useDispatch();
-  const portionSize = useSelector((state) => state.portionSize);
-  const foodType = useSelector((state) => state.foodType);
+  const size = useSelector((state) => state.portionSize, shallowEqual);
+  const type = useSelector((state) => state.foodType, shallowEqual);
 
   return (
     <div>
@@ -43,7 +47,7 @@ export default function BuildPizza() {
         <div className="col-12 col-lg-8">
           <section className="px-3 py-3 mb-5">
             <h4>
-              {portionSize}-Size {foodType} Nutrition Facts
+              {size.portionSize}-Size {type.foodType} Nutrition Facts
             </h4>
             <h5>
               <span>Start with a</span> Base.
@@ -229,7 +233,7 @@ export default function BuildPizza() {
             title="Nutrition Facts"
             subTitle="Items Selected"
           ></Calculator>
-          <button onClick={reset(dispatch)} className="btn btn-secondary">
+          <button onClick={reset()} className="btn btn-secondary">
             Reset
           </button>
         </div>

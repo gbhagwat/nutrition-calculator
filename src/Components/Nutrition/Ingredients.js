@@ -5,8 +5,8 @@ export function Ingredients(props) {
           className={`card px-3 py-2 mb-3 ${
             isSelected ? "Close Nutrition Facts" : "Open Nutrition Facts"
           }`}
-          onClick={(isSelected = !isSelected)}
-          onKeyEnter={handleKeyPress}
+          onClick={selected}
+          onKeyDown={handleKeyPress}
           aria-label={`${
             active ? "Close Nutrition Facts" : "Open Nutrition Facts"
           }`}
@@ -75,4 +75,8 @@ export function Ingredients(props) {
 
   function showFacts(){
     isShowFacts = !isShowFacts;
+  }
+
+  function selected(){
+    isSelected = !isSelected;
   }

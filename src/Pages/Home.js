@@ -2,7 +2,6 @@ import { Header } from "../Components/Layout/Header";
 import { Navigation } from "../Components/Layout/Navigation";
 import { Jumbotron } from "../Components/Layout/Jumbotron";
 import { Footer } from "../Components/Layout/Footer";
-import "../Assets/Styles/layouts.css";
 
 export function Home() {
   return (

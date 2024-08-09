@@ -1,4 +1,4 @@
-import {store} from "../App/store";
+import { UIStore } from "../App/store";
 import { Header } from "../Components/Layout/Header";
 import { Jumbotron } from "../Components/Layout/Jumbotron";
 import { Navigation } from "../Components/Layout/Navigation";
@@ -6,14 +6,12 @@ import { Footer } from "../Components/Layout/Footer";
 import BuildPizza from "../Pages/BuildPizza";
 import BuildSalad from "../Pages/BuildSalad";
 import ServingBtn from "../Components/Nutrition/ServingBtn";
-import { changeFoodType } from "../App/FoodTypeSlice";
-import { resetIngredients } from "../App/SelectedIngredientsSlice";
-
-let showPizza = true;
-let showSalad = false;
 
 export function CalculatePlate() {
 
+  let showFlatbread = UIStore.useState(s => s.showFlatbread);
+  let showSalad = UIStore.useState(s => s.showSalad);
+    
   return (
     <div>
       <Header company="Gusto" slogan="From Farm to Street"></Header>
@@ -27,22 +25,22 @@ export function CalculatePlate() {
         <div className="btn-group my-4 pb-3">
           <button
             type="button"
-            className={`btn btn-primary mr-1 ${showPizza ? "active" : ""}`}
-            onClick={() => showPizzaInfo(showPizza, showSalad)}
+            className={`btn btn-primary mr-1 ${showFlatbread ? "active" : ""}`}
+            onClick={() => UIStore.update(showFlatbreadInfo)}
           >
             Flatbread
           </button>
           <button
             type="button"
             className={`btn btn-primary mr-5 ${showSalad ? "active" : ""}`}
-            onClick={() => showSaladInfo(showPizza, showSalad)}
+            onClick={() => UIStore.update(showSaladInfo)}
           >
             Salad
           </button>
           <ServingBtn></ServingBtn>
         </div>
 
-        {showPizza && <BuildPizza></BuildPizza>}
+        {showFlatbread && <BuildPizza></BuildPizza>}
         {showSalad && <BuildSalad></BuildSalad>}
       </div>
 
@@ -51,23 +49,16 @@ export function CalculatePlate() {
   );
 }
 
-function showPizzaInfo() {
-  showPizza = true;
-  showSalad = false;
-  store.dispatch(changeFoodType("Flatbread"));
-  reset();
+function showFlatbreadInfo(s) {
+  s.showFlatbread = true;
+  s.showSalad = false;
+  s.foodType = "Flatbread";
+  s.selectedIngredients = [];
 }
 
-function showSaladInfo() {
-  showPizza = false;
-  showSalad = true;
-  store.dispatch(changeFoodType("Salad"));
-  reset();
-}
-
-function reset() {
-  store.dispatch(resetIngredients);
-  //   this.$refs.ing.forEach(function (el) {
-  //     return (el.isSelected = false);
-  //   });
+function showSaladInfo(s) {
+  s.showFlatbread = false;
+  s.showSalad = true;
+  s.foodType = "Salad"
+  s.selectedIngredients = [];
 }

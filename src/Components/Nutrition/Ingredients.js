@@ -1,14 +1,24 @@
+import { UIStore } from "../../App/store";
+
 export function Ingredients(props) {
+
+  let isShowFacts = UIStore.useState(s => s.isShowFacts);
+  let isSelected = UIStore.useState(s => s.isSelected);
+  let isActive = UIStore.useState(s => s.isActive);
+
     return (
       <div>
         <button
           className={`card px-3 py-2 mb-3 ${
             isSelected ? "Close Nutrition Facts" : "Open Nutrition Facts"
           }`}
-          onClick={selected}
-          onKeyDown={handleKeyPress}
+          onClick={() =>
+            UIStore.update(s => {
+              s.isSelected = !s.isSelected;
+            })}          
+          onKeyDown={() => UIStore.update(handleKeyPress)}
           aria-label={`${
-            active ? "Close Nutrition Facts" : "Open Nutrition Facts"
+            isActive ? "Close Nutrition Facts" : "Open Nutrition Facts"
           }`}
         >
           <span className="font-italic">{props.category}</span>
@@ -18,8 +28,14 @@ export function Ingredients(props) {
               className={` ${isShowFacts ? "minus" : ""},  ${
                 !isShowFacts ? "plus" : ""
               } `}
-              onMouseEnter={showFacts}
-              onMouseLeave={showFacts}
+              onMouseEnter={() =>
+                UIStore.update(s => {
+                  s.isShowFacts = !s.isShowFacts;
+                })}
+              onMouseLeave={() =>
+                UIStore.update(s => {
+                  s.isShowFacts = !s.isShowFacts;
+                })}
               aria-label={`${
                 isShowFacts ? "Close Nutrition Facts" : "Open Nutrition Facts"
               }`}
@@ -63,20 +79,8 @@ export function Ingredients(props) {
     );
   }
   
-  function handleKeyPress(event) {
+  function handleKeyPress(event, s) {
     if (event.key === "Enter") {
-      isShowFacts = !isShowFacts;
+      s.isShowFacts = !s.isShowFacts;
     }
-  }
-  
-  let isShowFacts = false;
-  let isSelected = false;
-  let active;
-
-  function showFacts(){
-    isShowFacts = !isShowFacts;
-  }
-
-  function selected(){
-    isSelected = !isSelected;
   }

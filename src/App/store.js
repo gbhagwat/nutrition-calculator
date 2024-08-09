@@ -1,12 +1,17 @@
-import { configureStore } from "@reduxjs/toolkit";
-import SelectedIngredientsReducer from "./SelectedIngredientsSlice";
-import FoodTypeReducer from "./FoodTypeSlice";
-import PortionSizeReducer from "./PortionSizeSlice";
+import { Store } from "pullstate";
 
-export const store = configureStore({
-  reducer: {
-    selectedIngredients: SelectedIngredientsReducer,
-    foodType: FoodTypeReducer,
-    portionSize: PortionSizeReducer,
-  },
+export const UIStore = new Store({
+   portionSize: "half",
+   foodType: "Flatbread",
+   selectedIngredients: [],
+   showFlatbread: true,
+   showSalad: false,
+   showFlatbreads: true,
+   showSalads: false,
+   showFullFacts: true,
+   showHalfFacts: false,
+   isShowFacts: true,
+   isSelected: false,
+   isActive: false
+
 });

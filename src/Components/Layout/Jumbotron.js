@@ -1,9 +1,3 @@
-import "../../Assets/Styles/layouts.css";
-
-// const data = {
-//   title: "FAST FIRED PIZZAS & FARM FRESH SALADS",
-// };
-
 export function Jumbotron(props) {
   return (
     <div className="jumbotron">

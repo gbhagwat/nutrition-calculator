@@ -1,8 +1,3 @@
-// const data = {
-//   company: "Gusto",
-//   slogan: "From Farm to Street",
-// };
-
 export function Header(props) {
     return (
       <header className="py-3">

@@ -12,6 +12,17 @@ export const UIStore = new Store({
    showHalfFacts: false,
    isShowFacts: true,
    isSelected: false,
-   isActive: false
+   isActive: false,
+   facts: {
+    calories: 0,
+    fat: 0,
+    satFat: 0,
+    chol: 0,
+    sodium: 0,
+    carbs: 0,
+    fiber: 0,
+    protein: 0,
+    sugars: 0   
+   }
 
 });

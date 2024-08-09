@@ -47,47 +47,47 @@ export default function BuildSalad() {
                     name={item.name}
                     key={index}
                     calories={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.calories
                         : item.half.calories
                     }
                     fat={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.fat
                         : item.half.fat
                     }
                     satFat={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.satFat
                         : item.half.satFat
                     }
                     chol={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.chol
                         : item.half.chol
                     }
                     sodium={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.sodium
                         : item.half.sodium
                     }
                     carbs={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.carbs
                         : item.half.carbs
                     }
                     fiber={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.fiber
                         : item.half.fiber
                     }
                     protein={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.protein
                         : item.half.protein
                     }
                     sugars={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.sugars
                         : item.half.sugars
                     }
@@ -101,47 +101,47 @@ export default function BuildSalad() {
                     name={item.name}
                     key={index}
                     calories={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.calories
                         : item.half.calories
                     }
                     fat={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.fat
                         : item.half.fat
                     }
                     satFat={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.satFat
                         : item.half.satFat
                     }
                     chol={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.chol
                         : item.half.chol
                     }
                     sodium={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.sodium
                         : item.half.sodium
                     }
                     carbs={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.carbs
                         : item.half.carbs
                     }
                     fiber={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.fiber
                         : item.half.fiber
                     }
                     protein={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.protein
                         : item.half.protein
                     }
                     sugars={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.sugars
                         : item.half.sugars
                     }
@@ -160,47 +160,47 @@ export default function BuildSalad() {
                     name={item.name}
                     key={index}
                     calories={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.calories
                         : item.half.calories
                     }
                     fat={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.fat
                         : item.half.fat
                     }
                     satFat={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.satFat
                         : item.half.satFat
                     }
                     chol={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.chol
                         : item.half.chol
                     }
                     sodium={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.sodium
                         : item.half.sodium
                     }
                     carbs={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.carbs
                         : item.half.carbs
                     }
                     fiber={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.fiber
                         : item.half.fiber
                     }
                     protein={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.protein
                         : item.half.protein
                     }
                     sugars={
-                      item.portionSize === "full"
+                      portionSize === "full"
                         ? item.full.sugars
                         : item.half.sugars
                     }

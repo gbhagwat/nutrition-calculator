@@ -28,14 +28,6 @@ export function Ingredients(props) {
               className={` ${isShowFacts ? "minus" : ""},  ${
                 !isShowFacts ? "plus" : ""
               } `}
-              onMouseEnter={() =>
-                UIStore.update(s => {
-                  s.isShowFacts = !s.isShowFacts;
-                })}
-              onMouseLeave={() =>
-                UIStore.update(s => {
-                  s.isShowFacts = !s.isShowFacts;
-                })}
               aria-label={`${
                 isShowFacts ? "Close Nutrition Facts" : "Open Nutrition Facts"
               }`}

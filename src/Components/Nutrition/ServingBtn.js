@@ -28,11 +28,11 @@ export default function ServingBtn() {
 function showHalfIng(s) {
   s.showHalfFacts = false;
   s.showFullFacts = true;
-  s.changePortionSize("half")
+  s.portionSize = "half";
 }
 
 function showFullIng(s) {
   s.showHalfFacts = false;
   s.showFullFacts = true;
-  s.changePortionSize("full")
+  s.portionSize = "full";
 }

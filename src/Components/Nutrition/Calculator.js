@@ -1,106 +1,23 @@
 import ingredients from "../../Data/ingredients.json";
-import { useSelector } from "react-redux";
+import { useMemo } from "react";
+import { UIStore } from "../../App/store";
 
 export function Calculator(props) {
-    let selectedIngredients = useSelector((state) => state.selectedIngredients);
 
-    return (
-      <div>
-        <div className="card">
-          <div className="card-header">
-            <h4 className="card-title">{props.title}</h4>
-          </div>
-          <div className="card-body">
-            <dl className="row justify-content-center px-2 py-3">
-              <dt className="col-2 col-sm-auto text-left">Calories</dt>
-              <dd className="col text-sm-right">
-                {totals.calories > 0 ? totals.calories : "0"}
-              </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Total Fat(g)</dt>
-              <dd className="col text-sm-right">
-                {totals.fat > 0 ? totals.fat : "0"}
-              </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Saturated Fat(g)</dt>
-              <dd className="col text-sm-right">
-                {totals.satFat > 0 ? totals.satFat : "0"}
-              </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Cholesterol(mg)</dt>
-              <dd className="col text-sm-right">
-                {totals.chol > 0 ? totals.chol : "0"}
-              </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Sodium(mg)</dt>
-              <dd className="col text-sm-right">
-                {totals.sodium > 0 ? totals.sodium : "0"}
-              </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Carbs(g)</dt>
-              <dd className="col text-sm-right">
-                {totals.carbs > 0 ? totals.carbs : "0"}
-              </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Fiber(g)</dt>
-              <dd className="col text-sm-right">
-                {totals.fiber > 0 ? totals.fiber : "0"}
-              </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Protein(g)</dt>
-              <dd className="col text-sm-right">
-                {totals.protein > 0 ? totals.protein : "0"}
-              </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Sugars(g)</dt>
-              <dd className="col text-sm-right">
-                {totals.sugar > 0 ? totals.sugar : "0"}
-              </dd>
-            </dl>
-          </div>
-        </div>
-        <div className="card">
-          <div className="card-header">
-            <h4 className="card-title">{props.subTitle}</h4>
-          </div>
-          <div className="card-body">
-            <ul>
-              {selectedIngredients.map((ingredient, index) => (
-                <li className="tags" key={index}>
-                  {ingredient.name}
-                  <span
-                    onClick={removeTag(selectedIngredients, ingredient.name)}
-                    className="float-right mr-1"
-                  >
-                    x
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  
-  function removeTag(selectedIngredients, name) {
-    let filtered = selectedIngredients.filter(function (value) {
-      return value !== name;
-    });
-    selectedIngredients = filtered;
-  }
-  
-  function totals(calories, fat, satFat, chol, sodium, carbs, fiber, protein, sugars, selectedIngredients, portionSize) {
-    let facts = {};
-    let totalCal = calories;
-    let totalFat = fat;
-    let totalSatFat = satFat;
-    let totalChol = chol;
-    let totalSodium = sodium;
-    let totalCarbs = carbs;
-    let totalFiber = fiber;
-    let totalProtein = protein;
-    let totalSugars = sugars;
+ let facts = UIStore.useState(s => s.facts);
+ let selectedIngredients = UIStore.useState(s => s.selectedIngredients);
+ let portionSize = UIStore.useState(s => s.portionSize);
+
+  const totals = useMemo(() => {
+    let totalCal = facts.calories;
+    let totalFat = facts.fat;
+    let totalSatFat = facts.satFat;
+    let totalChol = facts.chol;
+    let totalSodium = facts.sodium;
+    let totalCarbs = facts.carbs;
+    let totalFiber = facts.fiber;
+    let totalProtein = facts.protein;
+    let totalSugars = facts.sugars;
   
     ingredients.forEach(function (ing) {
       if (selectedIngredients.indexOf(ing.name) > -1) {
@@ -128,5 +45,94 @@ export function Calculator(props) {
       }
     });
     return facts;
+  }, [facts, selectedIngredients, portionSize]);
+
+  const selection = useMemo(() => {
+    return selectedIngredients;
+  }, [selectedIngredients]);
+
+    return (
+      <div>
+        <div className="card">
+          <div className="card-header">
+            <h4 className="card-title">{props.title}</h4>
+          </div>
+          <div className="card-body">
+            <dl className="row justify-content-center px-2 py-3">
+              <dt className="col-2 col-sm-auto text-left">Calories</dt>
+              <dd className="col text-sm-right">
+                {totals.calories}
+              </dd>
+              <div className="w-100"></div>
+              <dt className="col-2 col-sm-auto text-left">Total Fat(g)</dt>
+              <dd className="col text-sm-right">
+                {totals.fat}
+              </dd>
+              <div className="w-100"></div>
+              <dt className="col-2 col-sm-auto text-left">Saturated Fat(g)</dt>
+              <dd className="col text-sm-right">
+                {totals.satFat}
+              </dd>
+              <div className="w-100"></div>
+              <dt className="col-2 col-sm-auto text-left">Cholesterol(mg)</dt>
+              <dd className="col text-sm-right">
+                {totals.chol}
+              </dd>
+              <div className="w-100"></div>
+              <dt className="col-2 col-sm-auto text-left">Sodium(mg)</dt>
+              <dd className="col text-sm-right">
+                {totals.sodium}
+              </dd>
+              <div className="w-100"></div>
+              <dt className="col-2 col-sm-auto text-left">Carbs(g)</dt>
+              <dd className="col text-sm-right">
+                {totals.carbs}
+              </dd>
+              <div className="w-100"></div>
+              <dt className="col-2 col-sm-auto text-left">Fiber(g)</dt>
+              <dd className="col text-sm-right">
+                {totals.fiber}
+              </dd>
+              <div className="w-100"></div>
+              <dt className="col-2 col-sm-auto text-left">Protein(g)</dt>
+              <dd className="col text-sm-right">
+                {totals.protein}
+              </dd>
+              <div className="w-100"></div>
+              <dt className="col-2 col-sm-auto text-left">Sugars(g)</dt>
+              <dd className="col text-sm-right">
+                {totals.sugars}
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-header">
+            <h4 className="card-title">{props.subTitle}</h4>
+          </div>
+          <div className="card-body">
+            <ul>
+              {selection.map((name, index) => (
+                <li className="tags" key={index}>
+                  {name}
+                  <span
+                    onClick={removeTag(name)}
+                    className="float-right mr-1"
+                  >
+                    x
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
   }
   
+  function removeTag(s, name) {
+    let filtered = s.selectedIngredients.filter(function (value) {
+      return value !== name;
+    });
+    s.selectedIngredients = filtered;
+  }

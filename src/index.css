@@ -98,4 +98,11 @@ nav {
   button {
     font-size: 1.25rem;
   }
-  
+
+  .card {
+    @apply max-w-sm rounded overflow-hidden shadow-lg w-64;
+  }
+
+  .ingredients {
+    @apply grid grid-cols-3 gap-0.5;
+  }

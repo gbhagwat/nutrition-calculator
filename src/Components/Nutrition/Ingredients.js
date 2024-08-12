@@ -70,9 +70,3 @@ export function Ingredients(props) {
       </div>
     );
   }
-  
-  function handleKeyPress(event, s) {
-    if (event.key === "Enter") {
-      s.isShowFacts = !s.isShowFacts;
-    }
-  }

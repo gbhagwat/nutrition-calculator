@@ -3,10 +3,9 @@ import { useMemo } from "react";
 import { UIStore } from "../../App/store";
 
 export function Calculator(props) {
-
  let facts = UIStore.useState(s => s.facts);
- let selectedIngredients = UIStore.useState(s => s.selectedIngredients);
  let portionSize = UIStore.useState(s => s.portionSize);
+ let selectedIngredients = props.selectedIngredients;
 
   const totals = useMemo(() => {
     let totalCal = facts.calories;
@@ -47,10 +46,6 @@ export function Calculator(props) {
     return facts;
   }, [facts, selectedIngredients, portionSize]);
 
-  const selection = useMemo(() => {
-    return selectedIngredients;
-  }, [selectedIngredients]);
-
     return (
       <div>
         <div className="card">
@@ -59,47 +54,39 @@ export function Calculator(props) {
           </div>
           <div className="card-body">
             <dl className="row justify-content-center px-2 py-3">
-              <dt className="col-2 col-sm-auto text-left">Calories</dt>
+              <dt className="text-left">Calories</dt>
               <dd className="col text-sm-right">
                 {totals.calories}
               </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Total Fat(g)</dt>
+              <dt className="text-left">Total Fat(g)</dt>
               <dd className="col text-sm-right">
                 {totals.fat}
               </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Saturated Fat(g)</dt>
+              <dt className="text-left">Saturated Fat(g)</dt>
               <dd className="col text-sm-right">
                 {totals.satFat}
               </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Cholesterol(mg)</dt>
+              <dt className="text-left">Cholesterol(mg)</dt>
               <dd className="col text-sm-right">
                 {totals.chol}
               </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Sodium(mg)</dt>
+              <dt className="text-left">Sodium(mg)</dt>
               <dd className="col text-sm-right">
                 {totals.sodium}
               </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Carbs(g)</dt>
+              <dt className="text-left">Carbs(g)</dt>
               <dd className="col text-sm-right">
                 {totals.carbs}
               </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Fiber(g)</dt>
+              <dt className="text-left">Fiber(g)</dt>
               <dd className="col text-sm-right">
                 {totals.fiber}
               </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Protein(g)</dt>
+              <dt className="text-left">Protein(g)</dt>
               <dd className="col text-sm-right">
                 {totals.protein}
               </dd>
-              <div className="w-100"></div>
-              <dt className="col-2 col-sm-auto text-left">Sugars(g)</dt>
+              <dt className="text-left">Sugars(g)</dt>
               <dd className="col text-sm-right">
                 {totals.sugars}
               </dd>
@@ -112,7 +99,7 @@ export function Calculator(props) {
           </div>
           <div className="card-body">
             <ul>
-              {selection.map((name, index) => (
+              {selectedIngredients.map((name, index) => (
                 <li className="tags" key={index}>
                   {name}
                   <span
@@ -130,9 +117,9 @@ export function Calculator(props) {
     );
   }
   
-  function removeTag(s, name) {
-    let filtered = s.selectedIngredients.filter(function (value) {
+  function removeTag(name, selectedIngredients) {
+    let filtered = selectedIngredients.filter(function (value) {
       return value !== name;
     });
-    s.selectedIngredients = filtered;
+    selectedIngredients = filtered;
   }

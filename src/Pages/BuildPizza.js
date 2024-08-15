@@ -1,63 +1,56 @@
 import ingredients from "../Data/ingredients.json";
 import { UIStore } from "../App/store";
-import { Ingredients } from "../Components/Nutrition/Ingredients";
+import { Ingredient } from "../Components/Nutrition/Ingredient";
 import { Calculator } from "../Components/Nutrition/Calculator";
+import { useMemo } from "react";
 
 export default function BuildPizza() {
-  let selectedIngredients = UIStore.useState((s) => s.selectedIngredients);
   let portionSize = UIStore.useState((s) => s.portionSize);
   let foodType = UIStore.useState((s) => s.foodType);
+  let selectedIngredients = UIStore.useState((s) => s.selectedIngredients);
 
-  const [checkedState, setCheckedState] = useState([]);
+  const totals = useMemo(() => {
+    let facts = {};
+  
+      return selectedIngredients.map((ing) => {
+        if (portionSize === "half") {
+          facts.calories = facts.calories += ing.half.calories;
+          facts.fat = facts.fat += ing.half.fat;
+          facts.satFat =  facts.satFat  += ing.half.satFat;
+          facts.chol = facts.chol  + ing.half.chol;
+          facts.sodium = facts.sodium + ing.half.sodium;
+          facts.carbs = facts.carbs + ing.half.carbs;
+          facts.fiber = facts.fiber + ing.half.fiber;
+          facts.protein = facts.protein + ing.half.protein;
+          facts.sugars = facts.sugars + ing.half.sugars; 
+      } 
+      if (portionSize === "full") {
+          facts.calories = facts.calories += ing.full.calories;
+          facts.fat = facts.fat += ing.full.fat;
+          facts.satFat = facts.satFat += ing.full.satFat;
+          facts.chol = facts.chol  += ing.full.chol;
+          facts.sodium = facts.sodium += ing.full.sodium;
+          facts.carbs = facts.carbs += ing.full.carbs;
+          facts.fiber = facts.fiber += ing.full.fiber;
+          facts.protein = facts.protein += ing.full.protein;
+          facts.sugars = facts.sugars += ing.full.sugars;
+      } 
+        return facts;
+      })    
+    }, [selectedIngredients, portionSize]);
 
-  const [total, setTotal] = useState(0);
 
-  const handleOnChange = (position) => {
-    console.log("reached")
+  const handleOnChange = (e) => {
+    let isChecked = e.target.checked;
 
-    const updatedCheckedState = checkedState.map((item, index) => 
-      index === position ? !item : item
-    );
-    console.log(updatedCheckedState)
-
-
-    setCheckedState(updatedCheckedState);
-
-    const totalNutrition = updatedCheckedState.reduce(
-      (totals, totalCal, totalFat, totalSatFat, totalCarbs, totalChol, totalFiber, totalProtein, totalSodium, totalSugars, currentState, index) => {
-        if(currentState === true) {
-          if (portionSize === "half") {
-            return totals = {
-              totalCal: totalCal + ingredients[index].half.calories,
-              totalFat: totalFat + ingredients[index].half.fat,
-              totalSatFat: totalSatFat + ingredients[index].half.satFat,
-              totalCarbs: totalCarbs + ingredients[index].half.carbs,
-              totalChol: totalChol + ingredients[index].half.chol,
-              totalFiber: totalFiber + ingredients[index].half.fiber,
-              totalProtein: totalProtein + ingredients[index].half.protein,
-              totalSodium: totalSodium + ingredients[index].half.sodium,
-              totalSugars: totalSugars + ingredients[index].half.sugars
-             }
-          }
-          if (portionSize === "full") {
-            return totals = {
-              totalCal: totalCal + ingredients[index].full.calories,
-              totalFat: totalFat + ingredients[index].full.fat,
-              totalSatFat: totalSatFat + ingredients[index].full.satFat,
-              totalCarbs: totalCarbs + ingredients[index].full.carbs,
-              totalChol: totalChol + ingredients[index].full.chol,
-              totalFiber: totalFiber + ingredients[index].full.fiber,
-              totalProtein: totalProtein + ingredients[index].full.protein,
-              totalSodium: totalSodium + ingredients[index].full.sodium,
-              totalSugars: totalSugars + ingredients[index].full.sugars
-        }
-          }
-        }
-        return totals;
-      },
-      0
-    );
-    setTotal(totalNutrition);
+    if(isChecked) {
+      selectedIngredients = [...selectedIngredients, e.target.value]
+      console.log(selectedIngredients)
+    } else {
+      let index = selectedIngredients.indexOf(e.target.value);
+      selectedIngredients.splice(index, 1);
+      console.log(selectedIngredients)
+    }
   }
 
   return (
@@ -71,138 +64,148 @@ export default function BuildPizza() {
             <h5>
               <span>Start with a</span> Base.
             </h5>
-            <div className="ingredients card-deck mb-4">
-              {filterCategory(ingredients, "Crust").map((item) => (
-                <Ingredients
-                  name={item.name}
-                  key={item.name}
-                  calories={
-                    portionSize === "full"
-                      ? item.full.calories
-                      : item.half.calories
-                  }
-                  fat={portionSize === "full" ? item.full.fat : item.half.fat}
-                  satFat={
-                    portionSize === "full" ? item.full.satFat : item.half.satFat
-                  }
-                  chol={
-                    portionSize === "full" ? item.full.chol : item.half.chol
-                  }
-                  sodium={
-                    portionSize === "full" ? item.full.sodium : item.half.sodium
-                  }
-                  carbs={
-                    portionSize === "full" ? item.full.carbs : item.half.carbs
-                  }
-                  fiber={
-                    portionSize === "full" ? item.full.fiber : item.half.fiber
-                  }
-                  protein={
-                    portionSize === "full"
-                      ? item.full.protein
-                      : item.half.protein
-                  }
-                  sugars={
-                    portionSize === "full" ? item.full.sugars : item.half.sugars
-                  }
-                  category={item.category}
-                ></Ingredients>
-              ))}
+            <div className="ingredients card-deck mb-4">              
+              {filterCategory(ingredients, "Crust").map(({ name, category, half, full }, index) => {
+                return (
+                  <Ingredient
+                    id={`custom-checkbox-${index}`}
+                    name={name}
+                    key={name}
+                    category={category}
+                    handleOnChange={handleOnChange}
+                    value={name}
+                    calories={
+                      portionSize === "full"
+                        ? full.calories
+                        : half.calories
+                    }
+                    fat={portionSize === "full" ? full.fat : half.fat}
+                    satFat={
+                      portionSize === "full" ? full.satFat : half.satFat
+                    }
+                    chol={
+                      portionSize === "full" ? full.chol : half.chol
+                    }
+                    sodium={
+                      portionSize === "full" ? full.sodium : half.sodium
+                    }
+                    carbs={
+                      portionSize === "full" ? full.carbs : half.carbs
+                    }
+                    fiber={
+                      portionSize === "full" ? full.fiber : half.fiber
+                    }
+                    protein={
+                      portionSize === "full"
+                        ? full.protein
+                        : half.protein
+                    }
+                    sugars={
+                      portionSize === "full" ? full.sugars : half.sugars
+                    }
+                  ></Ingredient>
+                );
+              })}
             </div>
             <h5>
               <span>Pick a</span> Sauce.
             </h5>
-            <div className="ingredients card-deck mb-4">
-            {filterCategory(ingredients, "Sauce").map(({ name, category, half, full }, index) => {
-              return (
-                <Ingredient
-                  name={name}
-                  key={index}
-                  category={category}
-                  calories={
-                    portionSize === "full"
-                      ? item.full.calories
-                      : item.half.calories
-                  }
-                  fat={portionSize === "full" ? item.full.fat : item.half.fat}
-                  satFat={
-                    portionSize === "full" ? item.full.satFat : item.half.satFat
-                  }
-                  chol={
-                    portionSize === "full" ? item.full.chol : item.half.chol
-                  }
-                  sodium={
-                    portionSize === "full" ? item.full.sodium : item.half.sodium
-                  }
-                  carbs={
-                    portionSize === "full" ? item.full.carbs : item.half.carbs
-                  }
-                  fiber={
-                    portionSize === "full" ? item.full.fiber : item.half.fiber
-                  }
-                  protein={
-                    portionSize === "full"
-                      ? item.full.protein
-                      : item.half.protein
-                  }
-                  sugars={
-                    portionSize === "full" ? item.full.sugars : item.half.sugars
-                  }
-                  category={item.category}
-                ></Ingredients>
-              ))}
+            <div className="ingredients card-deck mb-4">              
+              {filterCategory(ingredients, "Sauce").map(({ name, category, half, full }, index) => {
+                return (
+                  <Ingredient
+                    id={`custom-checkbox-${index}`}
+                    name={name}
+                    key={name}
+                    category={category}
+                    handleOnChange={handleOnChange}
+                    value={name}
+                    calories={
+                      portionSize === "full"
+                        ? full.calories
+                        : half.calories
+                    }
+                    fat={portionSize === "full" ? full.fat : half.fat}
+                    satFat={
+                      portionSize === "full" ? full.satFat : half.satFat
+                    }
+                    chol={
+                      portionSize === "full" ? full.chol : half.chol
+                    }
+                    sodium={
+                      portionSize === "full" ? full.sodium : half.sodium
+                    }
+                    carbs={
+                      portionSize === "full" ? full.carbs : half.carbs
+                    }
+                    fiber={
+                      portionSize === "full" ? full.fiber : half.fiber
+                    }
+                    protein={
+                      portionSize === "full"
+                        ? full.protein
+                        : half.protein
+                    }
+                    sugars={
+                      portionSize === "full" ? full.sugars : half.sugars
+                    }
+                  ></Ingredient>
+                );
+              })}
             </div>
-            <h5>
+            {/* <h5>
               <span>Choose your</span> cheese.
             </h5>
-            {filterCategory(ingredients, "Cheese").map(({ name, category, half, full }, index) => {
-              return (
-                <Ingredient
-                  name={name}
-                  key={index}
-                  category={category}
-                  calories={
-                    portionSize === "full"
-                      ? item.full.calories
-                      : item.half.calories
-                  }
-                  fat={portionSize === "full" ? item.full.fat : item.half.fat}
-                  satFat={
-                    portionSize === "full" ? item.full.satFat : item.half.satFat
-                  }
-                  chol={
-                    portionSize === "full" ? item.full.chol : item.half.chol
-                  }
-                  sodium={
-                    portionSize === "full" ? item.full.sodium : item.half.sodium
-                  }
-                  carbs={
-                    portionSize === "full" ? item.full.carbs : item.half.carbs
-                  }
-                  fiber={
-                    portionSize === "full" ? item.full.fiber : item.half.fiber
-                  }
-                  protein={
-                    portionSize === "full"
-                      ? item.full.protein
-                      : item.half.protein
-                  }
-                  sugars={
-                    portionSize === "full" ? item.full.sugars : item.half.sugars
-                  }
-                  category={item.category}
-                ></Ingredients>
-              ))}
-            </div>
+            <div className="ingredients card-deck mb-4">              
+              {filterCategory(ingredients, "Cheese").map(({ name, category, half, full }, index) => {
+                return (
+                  <Ingredient
+                    name={name}
+                    key={index}
+                    category={category}
+                    calories={
+                      portionSize === "full"
+                        ? full.calories
+                        : half.calories
+                    }
+                    fat={portionSize === "full" ? full.fat : half.fat}
+                    satFat={
+                      portionSize === "full" ? full.satFat : half.satFat
+                    }
+                    chol={
+                      portionSize === "full" ? full.chol : half.chol
+                    }
+                    sodium={
+                      portionSize === "full" ? full.sodium : half.sodium
+                    }
+                    carbs={
+                      portionSize === "full" ? full.carbs : half.carbs
+                    }
+                    fiber={
+                      portionSize === "full" ? full.fiber : half.fiber
+                    }
+                    protein={
+                      portionSize === "full"
+                        ? full.protein
+                        : half.protein
+                    }
+                    sugars={
+                      portionSize === "full" ? full.sugars : half.sugars
+                    }
+                  ></Ingredient>
+                );
+              })}
+            </div> */}
           </section>
         </div>
         <div className="col-12 col-lg-3">
           <Calculator
-            selectedIngredients={selectedIngredients}
             title="Nutrition Facts"
             subTitle="Items Selected"
+            totals={totals}
+            selectedIngredients={selectedIngredients}
           ></Calculator>
-          <button
+          {/* <button
             onClick={() =>
               UIStore.update((s) => {
                 s.selectedIngredients = [];
@@ -211,7 +214,7 @@ export default function BuildPizza() {
             className="btn btn-secondary"
           >
             Reset
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

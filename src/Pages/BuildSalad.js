@@ -41,10 +41,10 @@ export default function BuildSalad() {
               <span>Start with a</span> Base.
             </h5>
             <div className="ingredients card-deck mb-4">
-              {filterCategory(ingredients, "Greens").map(
-                (item, index) => (
-                  <Ingredients
-                    name={item.name}
+              {filterCategory(ingredients, "Greens").map(({ name, category, half, full }, index) => {
+                return (
+                  <Ingredient
+                    name={name}
                     key={index}
                     calories={
                       portionSize === "full"

@@ -8,6 +8,58 @@ export default function BuildPizza() {
   let portionSize = UIStore.useState((s) => s.portionSize);
   let foodType = UIStore.useState((s) => s.foodType);
 
+  const [checkedState, setCheckedState] = useState([]);
+
+  const [total, setTotal] = useState(0);
+
+  const handleOnChange = (position) => {
+    console.log("reached")
+
+    const updatedCheckedState = checkedState.map((item, index) => 
+      index === position ? !item : item
+    );
+    console.log(updatedCheckedState)
+
+
+    setCheckedState(updatedCheckedState);
+
+    const totalNutrition = updatedCheckedState.reduce(
+      (totals, totalCal, totalFat, totalSatFat, totalCarbs, totalChol, totalFiber, totalProtein, totalSodium, totalSugars, currentState, index) => {
+        if(currentState === true) {
+          if (portionSize === "half") {
+            return totals = {
+              totalCal: totalCal + ingredients[index].half.calories,
+              totalFat: totalFat + ingredients[index].half.fat,
+              totalSatFat: totalSatFat + ingredients[index].half.satFat,
+              totalCarbs: totalCarbs + ingredients[index].half.carbs,
+              totalChol: totalChol + ingredients[index].half.chol,
+              totalFiber: totalFiber + ingredients[index].half.fiber,
+              totalProtein: totalProtein + ingredients[index].half.protein,
+              totalSodium: totalSodium + ingredients[index].half.sodium,
+              totalSugars: totalSugars + ingredients[index].half.sugars
+             }
+          }
+          if (portionSize === "full") {
+            return totals = {
+              totalCal: totalCal + ingredients[index].full.calories,
+              totalFat: totalFat + ingredients[index].full.fat,
+              totalSatFat: totalSatFat + ingredients[index].full.satFat,
+              totalCarbs: totalCarbs + ingredients[index].full.carbs,
+              totalChol: totalChol + ingredients[index].full.chol,
+              totalFiber: totalFiber + ingredients[index].full.fiber,
+              totalProtein: totalProtein + ingredients[index].full.protein,
+              totalSodium: totalSodium + ingredients[index].full.sodium,
+              totalSugars: totalSugars + ingredients[index].full.sugars
+        }
+          }
+        }
+        return totals;
+      },
+      0
+    );
+    setTotal(totalNutrition);
+  }
+
   return (
     <div>
       <div className="row justify-content-center">
@@ -61,10 +113,12 @@ export default function BuildPizza() {
               <span>Pick a</span> Sauce.
             </h5>
             <div className="ingredients card-deck mb-4">
-              {filterCategory(ingredients, "Sauce").map((item) => (
-                <Ingredients
-                  name={item.name}
-                  key={item.name}
+            {filterCategory(ingredients, "Sauce").map(({ name, category, half, full }, index) => {
+              return (
+                <Ingredient
+                  name={name}
+                  key={index}
+                  category={category}
                   calories={
                     portionSize === "full"
                       ? item.full.calories
@@ -101,11 +155,12 @@ export default function BuildPizza() {
             <h5>
               <span>Choose your</span> cheese.
             </h5>
-            <div className="ingredients card-deck mb-4">
-              {filterCategory(ingredients, "Cheese").map((item) => (
-                <Ingredients
-                  name={item.name}
-                  key={item.name}
+            {filterCategory(ingredients, "Cheese").map(({ name, category, half, full }, index) => {
+              return (
+                <Ingredient
+                  name={name}
+                  key={index}
+                  category={category}
                   calories={
                     portionSize === "full"
                       ? item.full.calories

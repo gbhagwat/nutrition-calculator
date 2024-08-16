@@ -11,6 +11,7 @@ export const UIStore = new Store({
    showFullFacts: true,
    showHalfFacts: false,
    isShowFacts: true,
+   checkedBoxes: [],
    totals: {
       calories: 0,
       fat: 0,

@@ -18,13 +18,42 @@ export default function BuildSalad() {
       s.totals = totals;
     } )
   }
+  let checkedBoxes = UIStore.useState((s) => s.checkedBoxes);
+  let setCheckedBoxes = (checkedBoxes) => {
+    UIStore.update((s, o) => {
+      s.checkedBoxes = checkedBoxes;
+    })
+  }
+  
+  const reset = (e) => {
+
+    checkedBoxes = [];
+    setCheckedBoxes(checkedBoxes);
+    
+    setTotals({
+      calories: 0,
+      fat: 0,
+      satFat: 0,
+      chol: 0,
+      sodium: 0,
+      carbs: 0,
+      fiber: 0,
+      protein: 0,
+      sugars: 0
+    });
+
+    selectedIngredients = [];
+    setSelectedIngredients(selectedIngredients)
+  }
 
   const handleOnChange = (e) => {
-    let isChecked = e.target.checked;
+    const checkedId = e.target.value;
+    let checked = e.target.checked;
 
-    if(isChecked) {
+    if(checked) {
       selectedIngredients = [...selectedIngredients, e.target.value];
       setSelectedIngredients(selectedIngredients);
+      setCheckedBoxes(selectedIngredients);
 
       ingredients.map((ing) => {
         if (selectedIngredients.indexOf(e.target.value) > -1) {
@@ -99,7 +128,7 @@ export default function BuildSalad() {
 
       selectedIngredients.slice(0, -1);
       setSelectedIngredients(selectedIngredients);
-
+      setCheckedBoxes(checkedBoxes.filter(id => id !== checkedId));
       setTotals(totals);
       console.log(totals)     
     }
@@ -256,9 +285,13 @@ export default function BuildSalad() {
             subTitle="Items Selected"
             totals={totals}
           ></Calculator>
-          {/* <button onClick={() => UIStore.update(s => {s.selectedIngredients = []})} className="btn btn-secondary">
+          <button
+            onClick={reset}
+            className="btn btn-secondary"
+            type="reset"
+          >
             Reset
-          </button> */}
+          </button>
         </div>
       </div>
     </div>

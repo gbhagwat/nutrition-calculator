@@ -1,5 +1,7 @@
-// import ingredients from "../../Data/ingredients.json";
+import { UIStore } from "../../App/store";
+
 export function Calculator(props) {
+  let totals = UIStore.useState((s) => s.totals);
     return (
       <div>
         <div className="card">
@@ -10,39 +12,39 @@ export function Calculator(props) {
             <dl className="row justify-content-center px-2 py-3">
               <dt className="text-left">Calories</dt>
               <dd className="col text-sm-right">
-                {props.totals.calories}
+                {totals.calories}
               </dd>
               <dt className="text-left">Total Fat(g)</dt>
               <dd className="col text-sm-right">
-                {props.totals.fat}
+                {totals.fat}
               </dd>
               <dt className="text-left">Saturated Fat(g)</dt>
               <dd className="col text-sm-right">
-                {props.totals.satFat}
+                {totals.satFat}
               </dd>
               <dt className="text-left">Cholesterol(mg)</dt>
               <dd className="col text-sm-right">
-                {props.totals.chol}
+                {totals.chol}
               </dd>
               <dt className="text-left">Sodium(mg)</dt>
               <dd className="col text-sm-right">
-                {props.totals.sodium}
+                {totals.sodium}
               </dd>
               <dt className="text-left">Carbs(g)</dt>
               <dd className="col text-sm-right">
-                {props.totals.carbs}
+                {totals.carbs}
               </dd>
               <dt className="text-left">Fiber(g)</dt>
               <dd className="col text-sm-right">
-                {props.totals.fiber}
+                {totals.fiber}
               </dd>
               <dt className="text-left">Protein(g)</dt>
               <dd className="col text-sm-right">
-                {props.totals.protein}
+                {totals.protein}
               </dd>
               <dt className="text-left">Sugars(g)</dt>
               <dd className="col text-sm-right">
-                {props.totals.sugars}
+                {totals.sugars}
               </dd>
             </dl>
           </div>

@@ -1,25 +1,108 @@
 import ingredients from "../Data/ingredients.json";
 import { UIStore } from "../App/store";
 import { Ingredient } from "../Components/Nutrition/Ingredient";
-// import { Calculator } from "../Components/Nutrition/Calculator";
+import { Calculator } from "../Components/Nutrition/Calculator";
 
 export default function BuildSalad() {
+  let portionSize = UIStore.useState((s) => s.portionSize);
+  let foodType = UIStore.useState((s) => s.foodType);
   let selectedIngredients = UIStore.useState((s) => s.selectedIngredients);
-  const portionSize = UIStore.useState(s => s.portionSize);
-  const foodType = UIStore.useState(s => s.foodType);
+  let setSelectedIngredients = (selectedIngredients) => {
+    UIStore.update((s, o) => {
+      s.selectedIngredients = selectedIngredients;
+    })
+  };
+  let totals = UIStore.useState((s) => s.totals);
+  let setTotals = (totals) => {
+    UIStore.update((s, o) => {
+      s.totals = totals;
+    } )
+  }
 
   const handleOnChange = (e) => {
-    const isChecked = e.target.checked;
-    if(isChecked) {
-      selectedIngredients = [...selectedIngredients, e.target.value]
-      console.log(selectedIngredients)
-    } else {
-      let index = selectedIngredients.indexOf(e.target.value);
-      console.log(index);
-      selectedIngredients.splice(index, 1);
-      console.log(selectedIngredients)
-    }
+    let isChecked = e.target.checked;
 
+    if(isChecked) {
+      selectedIngredients = [...selectedIngredients, e.target.value];
+      setSelectedIngredients(selectedIngredients);
+
+      ingredients.map((ing) => {
+        if (selectedIngredients.indexOf(e.target.value) > -1) {
+          if (ing.name === e.target.value) {
+            if (portionSize === "half") {
+              totals = {
+                calories: totals.calories + ing.half.calories,
+                fat: totals.fat + ing.half.fat,
+                satFat: totals.satFat + ing.half.satFat,
+                chol: totals.chol + ing.half.chol,
+                sodium: totals.sodium + ing.half.sodium,
+                carbs: totals.carbs + ing.half.carbs,
+                fiber: totals.fiber + ing.half.fiber,
+                protein: totals.protein + ing.half.protein,
+                sugars: totals.sugars + ing.half.sugars
+              }
+            }
+            if (portionSize === "full") {
+              totals = {
+                calories: totals.calories + ing.full.calories,
+                fat: totals.fat + ing.full.fat,
+                satFat: totals.satFat + ing.full.satFat,
+                chol: totals.chol + ing.full.chol,
+                sodium: totals.sodium + ing.full.sodium,
+                carbs: totals.carbs + ing.full.carbs,
+                fiber: totals.fiber + ing.full.fiber,
+                protein: totals.protein + ing.full.protein,
+                sugars: totals.sugars + ing.full.sugars
+              }
+            }       
+          }
+        }
+
+        return totals;
+      })
+      setTotals(totals);
+      console.log(totals)                
+    } else {
+      ingredients.map((ing) => {
+        if (selectedIngredients.indexOf(e.target.value) > -1) {
+          if (ing.name === e.target.value) {
+            if (portionSize === "half") {
+              totals = {
+                calories: totals.calories - ing.half.calories,
+                fat: totals.fat - ing.half.fat,
+                satFat: totals.satFat - ing.half.satFat,
+                chol: totals.chol - ing.half.chol,
+                sodium: totals.sodium - ing.half.sodium,
+                carbs: totals.carbs - ing.half.carbs,
+                fiber: totals.fiber - ing.half.fiber,
+                protein: totals.protein - ing.half.protein,
+                sugars: totals.sugars - ing.half.sugars
+              }
+            }
+            if (portionSize === "full") {
+              totals = {
+                calories: totals.calories - ing.full.calories,
+                fat: totals.fat - ing.full.fat,
+                satFat: totals.satFat - ing.full.satFat,
+                chol: totals.chol - ing.full.chol,
+                sodium: totals.sodium - ing.full.sodium,
+                carbs: totals.carbs - ing.full.carbs,
+                fiber: totals.fiber - ing.full.fiber,
+                protein: totals.protein - ing.full.protein,
+                sugars: totals.sugars - ing.full.sugars
+              }
+            }       
+          }
+        }
+        return totals;
+      })     
+
+      selectedIngredients.slice(0, -1);
+      setSelectedIngredients(selectedIngredients);
+
+      setTotals(totals);
+      console.log(totals)     
+    }
   }
 
   return (
@@ -168,10 +251,11 @@ export default function BuildSalad() {
           </section>
         </div>
         <div className="col-12 col-lg-3">
-          {/* <Calculator
+          <Calculator
             title="Nutrition Facts"
             subTitle="Items Selected"
-          ></Calculator> */}
+            totals={totals}
+          ></Calculator>
           {/* <button onClick={() => UIStore.update(s => {s.selectedIngredients = []})} className="btn btn-secondary">
             Reset
           </button> */}

@@ -11,5 +11,15 @@ export const UIStore = new Store({
    showFullFacts: true,
    showHalfFacts: false,
    isShowFacts: true,
-   facts: {}
+   totals: {
+      calories: 0,
+      fat: 0,
+      satFat: 0,
+      chol: 0,
+      sodium: 0,
+      carbs: 0,
+      fiber: 0,
+      protein: 0,
+      sugars: 0
+   }
 });

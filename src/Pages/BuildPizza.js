@@ -7,23 +7,25 @@ export default function BuildPizza() {
   let portionSize = UIStore.useState((s) => s.portionSize);
   let foodType = UIStore.useState((s) => s.foodType);
   let selectedIngredients = UIStore.useState((s) => s.selectedIngredients);
-  let totals = {
-    calories: 0,
-    fat: 0,
-    satFat: 0,
-    chol: 0,
-    sodium: 0,
-    carbs: 0,
-    fiber: 0,
-    protein: 0,
-    sugars: 0
- }
+  let setSelectedIngredients = (selectedIngredients) => {
+    UIStore.update((s, o) => {
+      s.selectedIngredients = selectedIngredients;
+    })
+  };
+  let totals = UIStore.useState((s) => s.totals);
+  let setTotals = (totals) => {
+    UIStore.update((s, o) => {
+      s.totals = totals;
+    } )
+  }
 
   const handleOnChange = (e) => {
     let isChecked = e.target.checked;
 
     if(isChecked) {
-      selectedIngredients = [...selectedIngredients, e.target.value]
+      selectedIngredients = [...selectedIngredients, e.target.value];
+      setSelectedIngredients(selectedIngredients);
+
       ingredients.map((ing) => {
         if (selectedIngredients.indexOf(e.target.value) > -1) {
           if (ing.name === e.target.value) {
@@ -58,6 +60,7 @@ export default function BuildPizza() {
 
         return totals;
       })
+      setTotals(totals);
       console.log(totals)                
     } else {
       ingredients.map((ing) => {
@@ -92,11 +95,13 @@ export default function BuildPizza() {
           }
         }
         return totals;
-      })
-      let index = selectedIngredients.indexOf(e.target.value);
-      selectedIngredients.splice(index, 1);
+      })     
 
-      console.log(totals)          
+      selectedIngredients.slice(0, -1);
+      setSelectedIngredients(selectedIngredients);
+
+      setTotals(totals);
+      console.log(totals)     
     }
   }
 

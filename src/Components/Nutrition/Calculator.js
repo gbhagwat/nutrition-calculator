@@ -47,13 +47,13 @@ export function Calculator(props) {
             </dl>
           </div>
         </div>
-        <div className="card">
+        {/* <div className="card">
           <div className="card-header">
             <h4 className="card-title">{props.subTitle}</h4>
           </div>
           <div className="card-body">
             <ul>
-              {props.selectedIngredients.map((name, index) => (
+              {selectedIngredients.map((name, index) => (
                 <li className="tags" key={index}>
                   {name}
                   <span
@@ -66,14 +66,14 @@ export function Calculator(props) {
               ))}
             </ul>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }
   
-  function removeTag(name, props) {
-    let filtered = props.selectedIngredients.filter(function (value) {
-      return value !== name;
-    });
-    props.selectedIngredients = filtered;
-  }
+  // function removeTag(name, {selectedIngredients}) {
+  //   let filtered = selectedIngredients.filter(function (value) {
+  //     return value !== name;
+  //   });
+  //   selectedIngredients = filtered;
+  // }

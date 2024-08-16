@@ -2,54 +2,101 @@ import ingredients from "../Data/ingredients.json";
 import { UIStore } from "../App/store";
 import { Ingredient } from "../Components/Nutrition/Ingredient";
 import { Calculator } from "../Components/Nutrition/Calculator";
-import { useMemo } from "react";
 
 export default function BuildPizza() {
   let portionSize = UIStore.useState((s) => s.portionSize);
   let foodType = UIStore.useState((s) => s.foodType);
   let selectedIngredients = UIStore.useState((s) => s.selectedIngredients);
-
-  const totals = useMemo(() => {
-    let facts = {};
-  
-      return selectedIngredients.map((ing) => {
-        if (portionSize === "half") {
-          facts.calories = facts.calories += ing.half.calories;
-          facts.fat = facts.fat += ing.half.fat;
-          facts.satFat =  facts.satFat  += ing.half.satFat;
-          facts.chol = facts.chol  + ing.half.chol;
-          facts.sodium = facts.sodium + ing.half.sodium;
-          facts.carbs = facts.carbs + ing.half.carbs;
-          facts.fiber = facts.fiber + ing.half.fiber;
-          facts.protein = facts.protein + ing.half.protein;
-          facts.sugars = facts.sugars + ing.half.sugars; 
-      } 
-      if (portionSize === "full") {
-          facts.calories = facts.calories += ing.full.calories;
-          facts.fat = facts.fat += ing.full.fat;
-          facts.satFat = facts.satFat += ing.full.satFat;
-          facts.chol = facts.chol  += ing.full.chol;
-          facts.sodium = facts.sodium += ing.full.sodium;
-          facts.carbs = facts.carbs += ing.full.carbs;
-          facts.fiber = facts.fiber += ing.full.fiber;
-          facts.protein = facts.protein += ing.full.protein;
-          facts.sugars = facts.sugars += ing.full.sugars;
-      } 
-        return facts;
-      })    
-    }, [selectedIngredients, portionSize]);
-
+  let totals = {
+    calories: 0,
+    fat: 0,
+    satFat: 0,
+    chol: 0,
+    sodium: 0,
+    carbs: 0,
+    fiber: 0,
+    protein: 0,
+    sugars: 0
+ }
 
   const handleOnChange = (e) => {
     let isChecked = e.target.checked;
 
     if(isChecked) {
       selectedIngredients = [...selectedIngredients, e.target.value]
-      console.log(selectedIngredients)
+      ingredients.map((ing) => {
+        if (selectedIngredients.indexOf(e.target.value) > -1) {
+          if (ing.name === e.target.value) {
+            if (portionSize === "half") {
+              totals = {
+                calories: totals.calories + ing.half.calories,
+                fat: totals.fat + ing.half.fat,
+                satFat: totals.satFat + ing.half.satFat,
+                chol: totals.chol + ing.half.chol,
+                sodium: totals.sodium + ing.half.sodium,
+                carbs: totals.carbs + ing.half.carbs,
+                fiber: totals.fiber + ing.half.fiber,
+                protein: totals.protein + ing.half.protein,
+                sugars: totals.sugars + ing.half.sugars
+              }
+            }
+            if (portionSize === "full") {
+              totals = {
+                calories: totals.calories + ing.full.calories,
+                fat: totals.fat + ing.full.fat,
+                satFat: totals.satFat + ing.full.satFat,
+                chol: totals.chol + ing.full.chol,
+                sodium: totals.sodium + ing.full.sodium,
+                carbs: totals.carbs + ing.full.carbs,
+                fiber: totals.fiber + ing.full.fiber,
+                protein: totals.protein + ing.full.protein,
+                sugars: totals.sugars + ing.full.sugars
+              }
+            }       
+          }
+        }
+
+        return totals;
+      })
+      console.log(totals)                
     } else {
+      ingredients.map((ing) => {
+        if (selectedIngredients.indexOf(e.target.value) > -1) {
+          if (ing.name === e.target.value) {
+            if (portionSize === "half") {
+              totals = {
+                calories: totals.calories - ing.half.calories,
+                fat: totals.fat - ing.half.fat,
+                satFat: totals.satFat - ing.half.satFat,
+                chol: totals.chol - ing.half.chol,
+                sodium: totals.sodium - ing.half.sodium,
+                carbs: totals.carbs - ing.half.carbs,
+                fiber: totals.fiber - ing.half.fiber,
+                protein: totals.protein - ing.half.protein,
+                sugars: totals.sugars - ing.half.sugars
+              }
+            }
+            if (portionSize === "full") {
+              totals = {
+                calories: totals.calories - ing.full.calories,
+                fat: totals.fat - ing.full.fat,
+                satFat: totals.satFat - ing.full.satFat,
+                chol: totals.chol - ing.full.chol,
+                sodium: totals.sodium - ing.full.sodium,
+                carbs: totals.carbs - ing.full.carbs,
+                fiber: totals.fiber - ing.full.fiber,
+                protein: totals.protein - ing.full.protein,
+                sugars: totals.sugars - ing.full.sugars
+              }
+            }       
+          }
+        }
+        return totals;
+      })
       let index = selectedIngredients.indexOf(e.target.value);
       selectedIngredients.splice(index, 1);
-      console.log(selectedIngredients)
+
+      console.log(totals)          
     }
   }
 
@@ -203,7 +250,6 @@ export default function BuildPizza() {
             title="Nutrition Facts"
             subTitle="Items Selected"
             totals={totals}
-            selectedIngredients={selectedIngredients}
           ></Calculator>
           {/* <button
             onClick={() =>

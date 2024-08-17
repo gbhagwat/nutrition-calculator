@@ -194,104 +194,104 @@ export default function BuildPizza() {
               {filterCategory(ingredients, "Sauce").map(({ name, category, half, full }, index) => {
                 return (
                   <Ingredient
-                    id={`custom-checkbox-${index}`}
-                    name={name}
-                    key={name}
-                    category={category}
-                    handleOnChange={handleOnChange}
-                    value={name}
-                    calories={
-                      portionSize === "full"
-                        ? full.calories
-                        : half.calories
-                    }
-                    fat={portionSize === "full" ? full.fat : half.fat}
-                    satFat={
-                      portionSize === "full" ? full.satFat : half.satFat
-                    }
-                    chol={
-                      portionSize === "full" ? full.chol : half.chol
-                    }
-                    sodium={
-                      portionSize === "full" ? full.sodium : half.sodium
-                    }
-                    carbs={
-                      portionSize === "full" ? full.carbs : half.carbs
-                    }
-                    fiber={
-                      portionSize === "full" ? full.fiber : half.fiber
-                    }
-                    protein={
-                      portionSize === "full"
-                        ? full.protein
-                        : half.protein
-                    }
-                    sugars={
-                      portionSize === "full" ? full.sugars : half.sugars
-                    }
-                  ></Ingredient>
-                );
-              })}
-            </div>
-            {/* <h5>
-              <span>Choose your</span> cheese.
-            </h5>
-            <div className="ingredients card-deck mb-4">              
-              {filterCategory(ingredients, "Cheese").map(({ name, category, half, full }, index) => {
-                return (
-                  <Ingredient
-                    name={name}
-                    key={index}
-                    category={category}
-                    calories={
-                      portionSize === "full"
-                        ? full.calories
-                        : half.calories
-                    }
-                    fat={portionSize === "full" ? full.fat : half.fat}
-                    satFat={
-                      portionSize === "full" ? full.satFat : half.satFat
-                    }
-                    chol={
-                      portionSize === "full" ? full.chol : half.chol
-                    }
-                    sodium={
-                      portionSize === "full" ? full.sodium : half.sodium
-                    }
-                    carbs={
-                      portionSize === "full" ? full.carbs : half.carbs
-                    }
-                    fiber={
-                      portionSize === "full" ? full.fiber : half.fiber
-                    }
-                    protein={
-                      portionSize === "full"
-                        ? full.protein
-                        : half.protein
-                    }
-                    sugars={
-                      portionSize === "full" ? full.sugars : half.sugars
-                    }
-                  ></Ingredient>
-                );
-              })}
-            </div> */}
-          </section>
-        </div>
-        <div className="col-12 col-lg-3">
-          <Calculator
-            title="Nutrition Facts"
-            subTitle="Items Selected"
-            totals={totals}
-          ></Calculator>
-          <button
-            onClick={reset}
-            className="btn btn-secondary"
-            type="reset"
-          >
-            Reset
-          </button>
-        </div>
+                      id={id}
+                      name={name}
+                      key={name}
+                      category={category}
+                      handleOnChange={handleOnChange}
+                      value={name}
+                      calories={
+                        portionSize === "full"
+                          ? full.calories
+                          : half.calories
+                      }
+                      fat={portionSize === "full" ? full.fat : half.fat}
+                      satFat={
+                        portionSize === "full" ? full.satFat : half.satFat
+                      }
+                      chol={
+                        portionSize === "full" ? full.chol : half.chol
+                      }
+                      sodium={
+                        portionSize === "full" ? full.sodium : half.sodium
+                      }
+                      carbs={
+                        portionSize === "full" ? full.carbs : half.carbs
+                      }
+                      fiber={
+                        portionSize === "full" ? full.fiber : half.fiber
+                      }
+                      protein={
+                        portionSize === "full"
+                          ? full.protein
+                          : half.protein
+                      }
+                      sugars={
+                        portionSize === "full" ? full.sugars : half.sugars
+                      }
+                    ></Ingredient>
+                  );
+                })}
+              </div>
+              {/* <h5>
+                <span>Choose your</span> cheese.
+              </h5>
+              <div className="ingredients card-deck mb-4">
+                {filterCategory(ingredients, "Cheese").map(({ name, category, half, full }, index) => {
+                  return (
+                    <Ingredient
+                      name={name}
+                      key={index}
+                      category={category}
+                      calories={
+                        portionSize === "full"
+                          ? full.calories
+                          : half.calories
+                      }
+                      fat={portionSize === "full" ? full.fat : half.fat}
+                      satFat={
+                        portionSize === "full" ? full.satFat : half.satFat
+                      }
+                      chol={
+                        portionSize === "full" ? full.chol : half.chol
+                      }
+                      sodium={
+                        portionSize === "full" ? full.sodium : half.sodium
+                      }
+                      carbs={
+                        portionSize === "full" ? full.carbs : half.carbs
+                      }
+                      fiber={
+                        portionSize === "full" ? full.fiber : half.fiber
+                      }
+                      protein={
+                        portionSize === "full"
+                          ? full.protein
+                          : half.protein
+                      }
+                      sugars={
+                        portionSize === "full" ? full.sugars : half.sugars
+                      }
+                    ></Ingredient>
+                  );
+                })}
+              </div> */}
+            </section>
+          </div>
+          <div className="col-12 col-lg-3">
+            <Calculator
+              title="Nutrition Facts"
+              subTitle="Items Selected"
+              totals={totals}
+            ></Calculator>
+            <button
+              onClick={reset}
+              className="btn btn-secondary"
+              type="reset"
+            >
+              Reset
+            </button>
+          </div>
       </div>
     </div>
   );

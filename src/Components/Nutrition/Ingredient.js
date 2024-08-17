@@ -1,17 +1,15 @@
-import { UIStore } from "../../App/store";
-
 export function Ingredient(props) {
-  let checkedBoxes = UIStore.useState((s) => s.checkedBoxes);
+
   return (
     <div className='card'>
       <div className="card-body">
         <input
+          key={props.id}
           type="checkbox"
           name={props.name}
           value={props.name}
           onChange={props.handleOnChange}
-          checked={checkedBoxes.includes(props.name)}
-          // defaultChecked={false}
+          defaultChecked={false}
         />        
         <div className="card-title">
           <h6>

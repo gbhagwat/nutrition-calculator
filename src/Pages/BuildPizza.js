@@ -18,18 +18,8 @@ export default function BuildPizza() {
       s.totals = totals;
     } )
   }
-  let checkedBoxes = UIStore.useState((s) => s.checkedBoxes);
-  let setCheckedBoxes = (checkedBoxes) => {
-    UIStore.update((s, o) => {
-      s.checkedBoxes = checkedBoxes;
-    })
-  }
   
   const reset = (e) => {
-
-    checkedBoxes = [];
-    setCheckedBoxes(checkedBoxes);
-    
     setTotals({
       calories: 0,
       fat: 0,
@@ -47,12 +37,13 @@ export default function BuildPizza() {
   }
 
   const handleOnChange = (e) => {
-    const checkedId = e.target.value;
+    console.log(e);
+    const value = e.target.value;
     let checked = e.target.checked;
     if(checked) {
-      selectedIngredients = [...selectedIngredients, e.target.value];
+      selectedIngredients = [...selectedIngredients, value];
       setSelectedIngredients(selectedIngredients);
-      setCheckedBoxes(selectedIngredients);
+      console.log(selectedIngredients);
 
       ingredients.map((ing) => {
         if (selectedIngredients.indexOf(e.target.value) > -1) {
@@ -125,78 +116,81 @@ export default function BuildPizza() {
         return totals;
       })     
 
-      selectedIngredients.slice(0, -1);
-      setSelectedIngredients(selectedIngredients);
-      setCheckedBoxes(checkedBoxes.filter(id => id !== checkedId));
+      const index = selectedIngredients.indexOf(e.target.value);
+      const selectIngredients = [...selectedIngredients];
+      selectIngredients.splice(index, 1)
+      console.log(selectIngredients);
+
+      setSelectedIngredients(selectIngredients);
+
       setTotals(totals);
-      console.log(totals)     
+      console.log(totals);
     }
   }
 
   return (
     <div>
       <div className="row justify-content-center">
-        <div className="col-12 col-lg-8">
-          <section className="px-3 py-3 mb-5">
-            <h4>
-              {portionSize}-Size {foodType} Nutrition Facts
-            </h4>
-            <h5>
-              <span>Start with a</span> Base.
-            </h5>
-            <div className="ingredients card-deck mb-4">              
-              {filterCategory(ingredients, "Crust").map(({ name, category, half, full }, index) => {
-                return (
-                  <Ingredient
-                    id={`custom-checkbox-${index}`}
-                    name={name}
-                    key={name}
-                    category={category}
-                    handleOnChange={handleOnChange}
-                    value={name}
-                    calories={
-                      portionSize === "full"
-                        ? full.calories
-                        : half.calories
-                    }
-                    fat={portionSize === "full" ? full.fat : half.fat}
-                    satFat={
-                      portionSize === "full" ? full.satFat : half.satFat
-                    }
-                    chol={
-                      portionSize === "full" ? full.chol : half.chol
-                    }
-                    sodium={
-                      portionSize === "full" ? full.sodium : half.sodium
-                    }
-                    carbs={
-                      portionSize === "full" ? full.carbs : half.carbs
-                    }
-                    fiber={
-                      portionSize === "full" ? full.fiber : half.fiber
-                    }
-                    protein={
-                      portionSize === "full"
-                        ? full.protein
-                        : half.protein
-                    }
-                    sugars={
-                      portionSize === "full" ? full.sugars : half.sugars
-                    }
-                  ></Ingredient>
-                );
-              })}
-            </div>
-            <h5>
-              <span>Pick a</span> Sauce.
-            </h5>
-            <div className="ingredients card-deck mb-4">              
-              {filterCategory(ingredients, "Sauce").map(({ name, category, half, full }, index) => {
-                return (
-                  <Ingredient
-                      id={id}
+        <form>
+          <div className="col-12 col-lg-8">
+            <section className="px-3 py-3 mb-5">
+              <h4>
+                {portionSize}-Size {foodType} Nutrition Facts
+              </h4>
+              <h5>
+                <span>Start with a</span> Base.
+              </h5>
+              <div className="ingredients card-deck mb-4">
+                {filterCategory(ingredients, "Crust").map(({ id, name, category, half, full }, index) => {
+                  return (
+                    <Ingredient
+                      key={id}
                       name={name}
-                      key={name}
+                      category={category}
+                      handleOnChange={handleOnChange}
+                      value={name}
+                      calories={
+                        portionSize === "full"
+                          ? full.calories
+                          : half.calories
+                      }
+                      fat={portionSize === "full" ? full.fat : half.fat}
+                      satFat={
+                        portionSize === "full" ? full.satFat : half.satFat
+                      }
+                      chol={
+                        portionSize === "full" ? full.chol : half.chol
+                      }
+                      sodium={
+                        portionSize === "full" ? full.sodium : half.sodium
+                      }
+                      carbs={
+                        portionSize === "full" ? full.carbs : half.carbs
+                      }
+                      fiber={
+                        portionSize === "full" ? full.fiber : half.fiber
+                      }
+                      protein={
+                        portionSize === "full"
+                          ? full.protein
+                          : half.protein
+                      }
+                      sugars={
+                        portionSize === "full" ? full.sugars : half.sugars
+                      }
+                    ></Ingredient>
+                  );
+                })}
+              </div>
+              <h5>
+                <span>Pick a</span> Sauce.
+              </h5>
+              <div className="ingredients card-deck mb-4">
+                {filterCategory(ingredients, "Sauce").map(({ id, name, category, half, full }, index) => {
+                  return (
+                    <Ingredient
+                      key={id}
+                      name={name}
                       category={category}
                       handleOnChange={handleOnChange}
                       value={name}
@@ -292,6 +286,7 @@ export default function BuildPizza() {
               Reset
             </button>
           </div>
+        </form>
       </div>
     </div>
   );
